@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Level D Word Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F3F5FB; --card:#FFFFFF; --ink:#1B2044; --muted:#555C82; --line:#D6DAEB; --soft:#E9ECF8;
+  --hl:#FFE14A; --hl-ink:#1B2044;
+  --noun:#0B7566; --verb:#BE3F0B; --adj:#6A3CCB; --adv:#2160AA;
+  --good:#13753A; --good-bg:#E1F4E7; --bad:#B21F28; --bad-bg:#FCE5E6; --warn-bg:#FFF3CC;
+  --btn:#1B2044; --btn-ink:#FFFFFF; --tile1:#E3E9FF; --tile2:#FFEFBF;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1229; --card:#181C39; --ink:#ECEEFA; --muted:#A3A9CC; --line:#2C3258; --soft:#212649;
+    --hl:#F2D23C; --hl-ink:#151935;
+    --noun:#3DD3B8; --verb:#FF8B5C; --adj:#B89CFF; --adv:#7DB4FF;
+    --good:#4ADE80; --good-bg:#11301E; --bad:#FF6E76; --bad-bg:#3A151B; --warn-bg:#3A3214;
+    --btn:#ECEEFA; --btn-ink:#0F1229; --tile1:#26305E; --tile2:#433815;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1229; --card:#181C39; --ink:#ECEEFA; --muted:#A3A9CC; --line:#2C3258; --soft:#212649;
+  --hl:#F2D23C; --hl-ink:#151935;
+  --noun:#3DD3B8; --verb:#FF8B5C; --adj:#B89CFF; --adv:#7DB4FF;
+  --good:#4ADE80; --good-bg:#11301E; --bad:#FF6E76; --bad-bg:#3A151B; --warn-bg:#3A3214;
+  --btn:#ECEEFA; --btn-ink:#0F1229; --tile1:#26305E; --tile2:#433815;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Lexend",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+img,svg{max-width:100%}
+.wrap{max-width:780px;margin:0 auto;padding:22px 18px 72px}
+h1,h2,h3{line-height:1.15}
+p{margin:0 0 .8em}
+:focus-visible{outline:3px solid var(--adv);outline-offset:2px;border-radius:6px}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px 20px}
+.brand h1{margin:0;font-size:1.6rem;font-weight:700;letter-spacing:-.015em}
+.brand p{margin:2px 0 0;color:var(--muted);font-size:.95rem}
+.unitpick{display:flex;flex-direction:column;gap:4px;font-size:.9rem;color:var(--muted)}
+.unitpick select{font:inherit;font-size:1rem;font-weight:600;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:10px;padding:8px 12px;min-height:44px}
+.meter{margin-top:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.bar{flex:1 1 220px;height:10px;background:var(--soft);border-radius:999px;overflow:hidden}
+.bar span{display:block;height:100%;background:var(--good);border-radius:999px;transition:width .4s}
+.meter p{margin:0;font-size:.92rem;color:var(--muted)}
+
+/* steps */
+.stepbar{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:0;margin:26px 0 26px}
+.stepbar button{width:100%;white-space:nowrap;font:inherit;font-size:.95rem;font-weight:500;display:flex;align-items:center;gap:8px;padding:8px 10px 10px;min-height:44px;background:none;border:0;border-top:4px solid var(--line);color:var(--muted);cursor:pointer;text-align:left}
+.stepbar .n{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--soft);font-size:.8rem;font-weight:700;flex:0 0 auto}
+.stepbar button.done{border-top-color:var(--good);color:var(--ink)}
+.stepbar button.done .n{background:var(--good);color:var(--card)}
+.stepbar button[aria-current="step"]{border-top-color:var(--ink);color:var(--ink);font-weight:700}
+.stepbar button[aria-current="step"] .n{background:var(--ink);color:var(--card)}
+details.help{margin:14px 0;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:4px 16px}
+details.help summary{cursor:pointer;font-weight:600;padding:10px 0;min-height:44px}
+details.help[open]{padding-bottom:14px}
+.qbox{margin-top:16px}
+
+/* shared controls */
+.btn{font:inherit;font-weight:600;font-size:1rem;background:var(--btn);color:var(--btn-ink);border:2px solid var(--btn);border-radius:10px;padding:9px 16px;min-height:44px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn:disabled{opacity:.5;cursor:default}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0}
+.speak{display:inline-flex;align-items:center;gap:8px}
+.speak svg{width:20px;height:20px}
+.field{display:block;width:100%;font:inherit;font-size:1.35rem;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:10px;padding:10px 14px}
+.field:focus{border-color:var(--adv);outline:none}
+textarea.field{font-size:1.1rem;line-height:1.6;resize:vertical;min-height:120px}
+.lbl{display:block;font-weight:600;margin:16px 0 6px}
+.muted{color:var(--muted)}
+.small{font-size:.9rem}
+
+/* word study */
+.wordhead{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px}
+.bigword{margin:0;font-size:clamp(2.5rem,10vw,4.4rem);font-weight:700;letter-spacing:-.025em;line-height:1;overflow-wrap:anywhere}
+.count{margin:10px 0 18px;color:var(--muted);font-size:.92rem}
+.tiles{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 6px}
+.tile{font-size:1.4rem;font-weight:600;padding:5px 13px;border-radius:9px;background:var(--tile1);letter-spacing:.02em}
+.tile:nth-child(even){background:var(--tile2)}
+.tile.blank{color:transparent;background:var(--soft);border:2px dashed var(--line)}
+.defs{margin:22px 0}
+.def{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:baseline;margin:0 0 10px}
+.def p{margin:0;font-size:1.15rem}
+.pos{font-size:.82rem;font-weight:600;padding:1px 10px;border:2px solid currentColor;border-radius:999px;white-space:nowrap}
+.pos-n{color:var(--noun)} .pos-v{color:var(--verb)} .pos-adj{color:var(--adj)} .pos-adv{color:var(--adv)}
+.example{margin:24px 0;padding:16px 18px;background:var(--card);border:1px solid var(--line);border-left:6px solid var(--hl);border-radius:10px}
+.example p.ex{font-size:1.2rem;margin:0 0 8px}
+.example .why{margin:0;font-size:.92rem;color:var(--muted)}
+mark.join{background:var(--hl);color:var(--hl-ink);padding:0 3px;border-radius:3px}
+.vw{font-weight:700;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+.learn-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-top:8px}
+.knew{display:flex;align-items:center;gap:10px;font-weight:500;cursor:pointer;padding:8px 0}
+.knew input{width:22px;height:22px;accent-color:var(--good)}
+
+.wordlist{margin-top:40px;padding-top:22px;border-top:2px solid var(--line)}
+.wordlist h3{margin:0 0 4px;font-size:1.05rem}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.85rem;color:var(--muted);margin:0 0 14px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:inherit;font-size:.95rem;display:inline-flex;align-items:center;gap:8px;padding:6px 12px;min-height:40px;border-radius:999px;border:2px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.chip.on{border-color:var(--ink);font-weight:600}
+.dots{display:inline-flex;gap:3px}
+.dot{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--muted);display:inline-block}
+.dot.l.on{background:var(--adv);border-color:var(--adv)}
+.dot.s.on{background:var(--good);border-color:var(--good)}
+.dot.w.on{background:var(--hl);border-color:var(--hl-ink)}
+
+/* spelling */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+.letters{display:flex;flex-wrap:wrap;gap:3px;margin:6px 0 14px}
+.letters span{display:inline-block;min-width:1.3em;text-align:center;font-size:1.6rem;font-weight:600;padding:2px 3px;border-bottom:4px solid var(--good)}
+.letters span.miss{color:var(--bad);background:var(--bad-bg);border-bottom-color:var(--bad);border-radius:4px 4px 0 0}
+.feedback{margin-top:16px}
+.msg{padding:12px 14px;border-radius:10px;margin:10px 0;font-weight:500}
+.msg.good{background:var(--good-bg);color:var(--good)}
+.msg.bad{background:var(--bad-bg);color:var(--bad)}
+.msg.warn{background:var(--warn-bg);color:var(--ink)}
+.copies{display:flex;gap:6px;margin:8px 0}
+.copies i{width:28px;height:8px;border-radius:4px;background:var(--soft)}
+.copies i.on{background:var(--good)}
+.clue{font-size:1.1rem}
+
+/* quiz */
+.qprompt{font-size:1.25rem;font-weight:600;margin:6px 0 16px}
+.qprompt .ex{font-weight:400}
+.opts{display:grid;gap:10px}
+.opt{font:inherit;font-size:1.05rem;text-align:left;padding:12px 16px;min-height:52px;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.opt.right{border-color:var(--good);background:var(--good-bg)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.opt:disabled{cursor:default}
+.score{font-size:clamp(2.2rem,8vw,3.4rem);font-weight:700;margin:0}
+
+/* write */
+.seg{display:inline-flex;border:2px solid var(--line);border-radius:12px;padding:3px;gap:3px;margin:4px 0 8px}
+.seg button{font:inherit;font-weight:600;border:0;border-radius:9px;padding:8px 16px;min-height:40px;background:transparent;color:var(--muted);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--btn);color:var(--btn-ink)}
+.checks{list-style:none;padding:0;margin:16px 0}
+.checks li{display:grid;grid-template-columns:28px 1fr;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}
+.checks li:last-child{border-bottom:0}
+.checks b{font-size:1.1rem}
+.checks .ok b{color:var(--good)} .checks .no b{color:var(--bad)} .checks .tip b{color:var(--muted)}
+.ai{margin-top:12px}
+.ai .panel p:last-child{margin-bottom:0}
+.mine{margin-top:40px;padding-top:22px;border-top:2px solid var(--line)}
+.mine ol{padding-left:1.3em}
+.mine li{margin:0 0 12px}
+.mine li .meta{display:block;font-size:.85rem;color:var(--muted)}
+.linkbtn{font:inherit;font-size:.85rem;background:none;border:0;color:var(--bad);text-decoration:underline;cursor:pointer;padding:4px 0;margin-left:6px}
+
+/* guide */
+.guide h2{font-size:1.5rem;margin:0 0 10px}
+.guide h3{font-size:1.15rem;margin:30px 0 8px}
+.guide .example{margin:12px 0}
+.kw{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 12px}
+.kw span{background:var(--hl);color:var(--hl-ink);font-weight:600;padding:2px 10px;border-radius:6px}
+.steps{padding-left:1.4em}
+.steps li{margin-bottom:8px}
+
+footer{margin-top:56px;font-size:.85rem;color:var(--muted)}
+footer button{font:inherit;font-size:.85rem;background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;padding:6px 0}
+.hidden{display:none !important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (max-width:520px){
+  body{font-size:16px}
+  .learn-actions .btn{flex:1 1 40%}
+}
+@media (prefers-reduced-motion: reduce){*{transition:none !important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <h1>Level D Word Lab</h1>
+      <p>Units 1 to 3. For each word: learn it, spell it, then use it in a sentence.</p>
+    </div>
+    <label class="unitpick">Choose a unit
+      <select id="unit"></select>
+    </label>
+  </header>
+  <div class="meter">
+    <div class="bar" aria-hidden="true"><span id="barfill" style="width:0"></span></div>
+    <p id="metertext"></p>
+  </div>
+  <main id="view" aria-live="polite"></main>
+  <footer>
+    <p>Your progress is saved in this browser only. <button id="reset" type="button">Reset my progress</button></p>
+  </footer>
+</div>
+<script>
+const RAW = [
+// Unit 1
+["admonish","ad·mon·ish",[["v","to warn someone, or to gently scold them for doing something wrong"]],"When I forgot my homework again, my teacher admonished me to use a planner."],
+["breach","breach",[["n","a hole or gap in something; also, breaking a rule or a promise"],["v","to break through something"]],"The water poured through a breach in the wall, so the town had to fix it fast."],
+["brigand","brig·and",[["n","a robber who attacks travelers"]],"The brigands hid in the hills until a wagon full of gold rolled by."],
+["circumspect","cir·cum·spect",[["adj","careful; thinking before you act"]],"Because the ice was thin, we were circumspect as we crossed the pond."],
+["commandeer","com·man·deer",[["v","to take over something for official or military use"]],"The police officer commandeered a taxi, and she chased the speeding car."],
+["cumbersome","cum·ber·some",[["adj","big, heavy, and hard to carry or handle"]],"The box was cumbersome, so two of us carried it up the stairs."],
+["deadlock","dead·lock",[["n","a point where two sides are stuck and nobody will give in"],["v","to get stuck that way"]],"The class vote ended in a deadlock, so the teacher picked the field trip herself."],
+["debris","de·bris",[["n","broken pieces left after something is destroyed"]],"After the storm passed, debris covered the whole street."],
+["diffuse","dif·fuse",[["v","to spread out over a wide area"],["adj","spread out; also, wordy and hard to follow"]],"When you open the window, the smell of smoke will diffuse into the air."],
+["dilemma","di·lem·ma",[["n","a hard problem where you must pick between two choices"]],"I faced a dilemma because my best friend's party and my game were on the same day."],
+["efface","ef·face",[["v","to wipe or rub something out; to stay in the background"]],"The rain effaced our chalk drawings, but we drew new ones the next day."],
+["muddle","mud·dle",[["v","to mix up or make a mess of something"],["n","a confusing mess"]],"I muddled the directions, so we ended up on the wrong street."],
+["opinionated","o·pin·ion·at·ed",[["adj","sure you are always right and not willing to listen to others"]],"My uncle is so opinionated that nobody argues with him at dinner."],
+["perennial","pe·ren·ni·al",[["adj","lasting a long time, or coming back again and again"],["n","a plant that grows back every year"]],"Tulips are perennials, so they bloom in our garden every spring."],
+["predispose","pre·dis·pose",[["v","to make someone likely to do or feel something ahead of time"]],"Because he played piano as a kid, he was predisposed to love music class."],
+["relinquish","re·lin·quish",[["v","to let go of something or give it up"]],"The king relinquished his crown after he grew too old to rule."],
+["salvage","sal·vage",[["v","to save something from being lost or ruined"],["n","the act of saving it, or the things that were saved"]],"The ship sank, but divers salvaged its treasure."],
+["spasmodic","spas·mod·ic",[["adj","happening in short, sudden bursts; not steady"]],"My study habits were spasmodic, so my grades went up and down."],
+["spurious","spu·ri·ous",[["adj","fake; not true or real"]],"The ad made spurious claims, and many people believed them anyway."],
+["unbridled","un·bri·dled",[["adj","wild and not held back"]],"When our team won the championship, the fans cheered with unbridled joy."],
+// Unit 2
+["adjourn","ad·journ",[["v","to stop a meeting and finish it later"]],"The judge adjourned the trial because it was getting late."],
+["alien","al·ien",[["adj","strange or foreign"],["n","a person from another country, or a being from another planet"]],"City life felt alien to her, since she grew up on a farm."],
+["comely","come·ly",[["adj","nice-looking; attractive"]],"The cottage was comely, and every visitor wanted a picture of it."],
+["compensate","com·pen·sate",[["v","to pay someone back, or to make up for something"]],"The store compensated me with a gift card after they lost my order."],
+["dissolute","dis·so·lute",[["adj","living a wild, careless life full of bad habits"]],"The prince led a dissolute life, so the people did not trust him to rule."],
+["erratic","er·rat·ic",[["adj","not steady; changing in ways you can't predict"]],"The car's erratic driving scared us, so we pulled over."],
+["expulsion","ex·pul·sion",[["n","being forced to leave a place or group"]],"Cheating can lead to expulsion, so Mia always does her own work."],
+["feint","feint",[["n","a fake move meant to trick someone"],["v","to make a fake move"]],"The soccer player feinted left before she kicked the ball right."],
+["fodder","fod·der",[["n","food for farm animals; also, anything used to feed or fuel something"]],"The farmer stored fodder in the barn so that the cows could eat all winter."],
+["fortify","for·ti·fy",[["v","to make something stronger"]],"The soldiers fortified the walls because they expected an attack."],
+["illegible","il·leg·i·ble",[["adj","so messy that it can't be read"]],"My notes were illegible, so I borrowed Sam's."],
+["jeer","jeer",[["v","to make fun of someone in a loud, rude way"],["n","a rude, mocking shout"]],"The crowd jeered when the referee made a bad call."],
+["lucrative","lu·cra·tive",[["adj","making a lot of money"]],"Her lemonade stand was lucrative, and she saved enough to buy a bike."],
+["mediocre","me·di·o·cre",[["adj","just okay; not very good"]],"The movie was mediocre, but the popcorn was great."],
+["proliferate","pro·lif·er·ate",[["v","to grow or spread quickly"]],"Weeds proliferated in the garden while we were on vacation."],
+["subjugate","sub·ju·gate",[["v","to conquer people and control them"]],"The empire subjugated the nearby villages, and it forced them to pay taxes."],
+["sully","sul·ly",[["v","to make something dirty; to hurt someone's good name"]],"Although the rumor was false, it sullied his reputation."],
+["tantalize","tan·ta·lize",[["v","to tease someone with something they want but can't have"]],"The smell of cookies tantalized me while I waited for them to cool."],
+["terse","terse",[["adj","short and to the point, sometimes a little rude"]],"Her reply was terse because she was busy."],
+["unflinching","un·flinch·ing",[["adj","brave; not backing away from something hard or scary"]],"The firefighter was unflinching, so she ran straight into the smoke."],
+// Unit 3
+["abridge","a·bridge",[["v","to make something shorter"]],"The teacher abridged the story so that we could finish it in one class."],
+["adherent","ad·her·ent",[["n","a follower or supporter of a person or idea"],["adj","sticking to something"]],"The coach's adherents believed in her plan, and they practiced every day."],
+["altercation","al·ter·ca·tion",[["n","a loud argument or fight"]],"An altercation broke out in the hallway, so the principal came running."],
+["cherubic","che·ru·bic",[["adj","sweet and innocent-looking, like a chubby baby angel"]],"The baby had a cherubic face, but she screamed all night."],
+["condone","con·done",[["v","to let something wrong happen without punishing it"]],"The school does not condone bullying, and it takes every report seriously."],
+["dissent","dis·sent",[["v","to disagree"],["n","disagreement with an idea or a rule"]],"Most of the class wanted pizza, but two students dissented."],
+["eminent","em·i·nent",[["adj","famous and respected; standing out above others"]],"An eminent scientist visited our school because she grew up in our town."],
+["exorcise","ex·or·cise",[["v","to drive out an evil spirit or a bad feeling"]],"When she wrote in her journal, she exorcised her fears about the test."],
+["fabricate","fab·ri·cate",[["v","to make up a lie; also, to build something"]],"He fabricated an excuse, but his mom saw right through it."],
+["irate","i·rate",[["adj","very angry"]],"The customer was irate because his food arrived cold."],
+["marauder","ma·raud·er",[["n","a raider who roams around stealing and attacking"]],"The marauders attacked the village while everyone was asleep."],
+["obesity","o·be·si·ty",[["n","having so much body fat that it can hurt your health"]],"Doctors study obesity because it can lead to other health problems."],
+["pauper","pau·per",[["n","a very poor person"]],"He was born a pauper, but he became a successful inventor."],
+["pilfer","pil·fer",[["v","to steal small things"]],"Someone pilfered pens from the supply closet, so the teacher locked it."],
+["rift","rift",[["n","a crack or split; a break in a friendship"]],"A rift grew between the two friends after they argued about the game."],
+["semblance","sem·blance",[["n","the way something looks on the outside, even if it isn't real"]],"Although he was nervous, he kept a semblance of calm during his speech."],
+["surmount","sur·mount",[["v","to get past a problem; to climb over something"]],"She surmounted her fear of heights when she climbed the rock wall."],
+["terminate","ter·mi·nate",[["v","to end or stop something"]],"The bus route terminates at the mall, so we got off there."],
+["trite","trite",[["adj","used so many times that it's boring and not fresh"]],"His story had a trite ending, and everyone guessed it early."],
+["usurp","u·surp",[["v","to take power or a position without having the right to"]],"The general usurped the throne after the queen left the country."]
+];
+</script>
+<script>
+(function(){
+"use strict";
+const POSNAME={n:"noun",v:"verb",adj:"adjective",adv:"adverb"};
+const WORDS=RAW.map((r,i)=>({w:r[0],syl:r[1].split(/[·\s]+/),pos:r[2],ex:r[3],unit:Math.floor(i/20)+1}));
+const IRREG={hew:["hewn"],cleave:["cleft","clove","cloven"]};
+
+/* ---------- storage ---------- */
+const KEY="wordlab-level-d-v1";
+let S={unit:1,learned:{},spelled:{},written:{},sentences:[],pos:{}};
+try{const s=JSON.parse(localStorage.getItem(KEY)||"null");if(s&&typeof s==="object")S=Object.assign(S,s);}catch(e){}
+if(![1,2,3].includes(S.unit))S.unit=1;if(!S.pos||typeof S.pos!=="object")S.pos={};
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s);
+const view=$("#view");
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const unitWords=()=>WORDS.filter(w=>w.unit===S.unit);
+const byWord=w=>WORDS.find(x=>x.w===w);
+
+function formsOf(word){
+  const b=word.toLowerCase();
+  const f=new Set([b,b+"s",b+"es",b+"d",b+"ed",b+"ing",b+"ly",b+"er",b+"ers",b+"est",b+"ness",b+"ment",b+"ments",b+"ally"]);
+  if(b.endsWith("e")){const s=b.slice(0,-1);["ed","ing","er","ers","est","es","ation","ations"].forEach(x=>f.add(s+x));}
+  if(/[^aeiou]y$/.test(b)){const s=b.slice(0,-1)+"i";["ed","es","er","ers","est","ly","ness"].forEach(x=>f.add(s+x));}
+  if(/[^aeiou][aeiou][bdglmnprt]$/.test(b)){const s=b+b.slice(-1);["ed","ing","er","ers","est"].forEach(x=>f.add(s+x));}
+  (IRREG[b]||[]).forEach(x=>f.add(x));
+  return f;
+}
+function wordRange(text,word){
+  const lw=word.toLowerCase();
+  if(lw.includes(" ")){
+    const re=new RegExp("\\b"+lw.replace(/\s+/g,"\\s+")+"\\b","i");const m=re.exec(text);
+    return m?[m.index,m.index+m[0].length]:null;
+  }
+  const forms=formsOf(lw);const re=/[A-Za-z]+/g;let m;
+  while((m=re.exec(text))){if(forms.has(m[0].toLowerCase()))return [m.index,m.index+m[0].length];}
+  return null;
+}
+function lev(a,b){
+  const d=[];for(let i=0;i<=a.length;i++){d[i]=[i];}
+  for(let j=1;j<=b.length;j++)d[0][j]=j;
+  for(let i=1;i<=a.length;i++)for(let j=1;j<=b.length;j++)
+    d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));
+  return d[a.length][b.length];
+}
+function closeMiss(text,word){
+  const lw=word.toLowerCase(); if(lw.includes(" "))return null;
+  const forms=[...formsOf(lw)];const toks=text.match(/[A-Za-z]+/g)||[];
+  const limit=lw.length>6?2:1;
+  for(const t of toks){
+    const tl=t.toLowerCase(); if(tl.length<3)continue;
+    for(const f of forms){if(Math.abs(f.length-tl.length)>2)continue;const d=lev(tl,f);if(d>0&&d<=limit)return t;}
+  }
+  return null;
+}
+const COMP_RE=/,\s*(for|and|nor|but|or|yet|so)\b(?!\s+that\b)/i;
+const SUBS=["even though","even if","as soon as","as long as","so that","in order that","as if","as though","although","though","because","since","unless","until","till","while","whereas","whenever","wherever","whether","after","before","when","where","once","if","as","who","whom","whose","which","that"];
+const SUB_RE=new RegExp("\\b("+SUBS.map(s=>s.replace(/ /g,"\\s+")).join("|")+")\\b","i");
+const RELATIVE=["who","whom","whose","which","that"];
+function joiner(text){
+  const c=COMP_RE.exec(text);
+  if(c){const st=c.index+c[0].length-c[1].length;return {type:"compound",range:[st,st+c[1].length],word:c[1]};}
+  const semi=text.indexOf(";");
+  if(semi>0)return {type:"compound",range:[semi,semi+1],word:";"};
+  const s=SUB_RE.exec(text);
+  if(s)return {type:"complex",range:[s.index,s.index+s[0].length],word:s[0]};
+  return null;
+}
+function markSentence(text,word){
+  const parts=[];const wr=wordRange(text,word);const j=joiner(text);
+  if(wr)parts.push({r:wr,cls:"vw"});
+  if(j&&!(wr&&j.range[0]<wr[1]&&j.range[1]>wr[0]))parts.push({r:j.range,cls:"join"});
+  parts.sort((a,b)=>a.r[0]-b.r[0]);
+  let out="",pos=0;
+  for(const p of parts){
+    out+=esc(text.slice(pos,p.r[0]));
+    const inner=esc(text.slice(p.r[0],p.r[1]));
+    out+=p.cls==="join"?`<mark class="join">${inner}</mark>`:`<span class="vw">${inner}</span>`;
+    pos=p.r[1];
+  }
+  return out+esc(text.slice(pos));
+}
+function explainSentence(text){
+  const j=joiner(text); if(!j)return "";
+  const w=j.word.toLowerCase().replace(/\s+/g," ");
+  if(j.type==="compound"){
+    return w===";"?"Compound sentence: the semicolon (;) joins two complete sentences."
+      :`Compound sentence: a comma plus “${w}” joins two complete sentences.`;
+  }
+  if(RELATIVE.includes(w))return `Complex sentence: “${w}” starts a part that adds information but can't stand alone.`;
+  return `Complex sentence: “${w}” starts a part that can't stand alone as its own sentence.`;
+}
+function blankSentence(text,word){
+  const r=wordRange(text,word); if(!r)return esc(text);
+  return esc(text.slice(0,r[0]))+'<span class="vw">_______</span>'+esc(text.slice(r[1]));
+}
+function defsHTML(w){
+  return w.pos.map(([p,d])=>`<div class="def"><span class="pos pos-${p}">${POSNAME[p]}</span><p>${esc(d)}</p></div>`).join("")
+    +(w.pos.length>1?`<p class="small muted">This word can be used as a ${w.pos.map(x=>POSNAME[x[0]]).join(" or a ")}.</p>`:"");
+}
+function dots(word){
+  return `<span class="dots" aria-hidden="true"><i class="dot l ${S.learned[word]?"on":""}"></i><i class="dot s ${S.spelled[word]?"on":""}"></i><i class="dot w ${S.written[word]?"on":""}"></i></span>`;
+}
+const canSpeak="speechSynthesis" in window;
+const SPK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+function speakBtn(word,label){
+  if(!canSpeak)return "";
+  return `<button class="btn ghost speak" type="button" data-say="${esc(word)}">${SPK}${label||"Hear it"}</button>`;
+}
+function say(text){
+  if(!canSpeak)return;
+  try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang="en-US";u.rate=.8;speechSynthesis.speak(u);}catch(e){}
+}
+
+function diffMarks(typed,correct){
+  const a=typed,b=correct,n=a.length,m=b.length,d=[];
+  for(let i=0;i<=n;i++){d[i]=[i];}for(let j=1;j<=m;j++)d[0][j]=j;
+  for(let i=1;i<=n;i++)for(let j=1;j<=m;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));
+  const marks=Array(m).fill(false);let i=n,j=m;
+  while(i>0||j>0){
+    if(i>0&&j>0&&d[i][j]===d[i-1][j-1]+(a[i-1]===b[j-1]?0:1)){if(a[i-1]!==b[j-1])marks[j-1]=true;i--;j--;}
+    else if(j>0&&d[i][j]===d[i][j-1]+1){marks[j-1]=true;j--;}
+    else{marks[Math.min(j,m-1)]=true;i--;}
+  }
+  return marks;
+}
+function lettersHTML(word,marks){
+  return `<div class="letters" aria-label="${esc(word)}">${[...word].map((c,i)=>c===" "?'<span style="border:0">&nbsp;</span>':`<span class="${marks&&marks[i]?"miss":""}">${esc(c)}</span>`).join("")}</div>`;
+}
+function analyzeSentence(text,w,target){
+  const out=[];let pass=true;
+  const t=text.trim();
+  const r=wordRange(t,w.w);
+  if(r){out.push({ok:true,text:`Uses “${w.w}”${t.slice(r[0],r[1]).toLowerCase()!==w.w.toLowerCase()?` (you wrote “${t.slice(r[0],r[1])}”, which is fine)`:""}.`});}
+  else{
+    pass=false;const miss=closeMiss(t,w.w);
+    out.push({ok:false,text:miss?`“${miss}” is close, but check the spelling. It's spelled ${w.w}.`:`Use the word “${w.w}”. An ending like -s, -ed, or -ing is okay.`});
+  }
+  const capOK=/^["“']?[A-Z]/.test(t), endOK=/[.!?]["”']?$/.test(t);
+  if(capOK&&endOK)out.push({ok:true,text:"Starts with a capital letter and ends with punctuation."});
+  else{pass=false;out.push({ok:false,text:!capOK&&!endOK?"Start with a capital letter and end with a period, question mark, or exclamation point.":!capOK?"Start the sentence with a capital letter.":"End with a period, question mark, or exclamation point."});}
+  const n=(t.match(/[A-Za-z']+/g)||[]).length;
+  if(n>=8)out.push({ok:true,text:`Has ${n} words. Good detail.`});
+  else{pass=false;out.push({ok:false,text:`Add more detail. It has ${n} words; aim for at least 8.`});}
+  const c=COMP_RE.exec(t), semi=t.indexOf(";")>0, s=SUB_RE.exec(t);
+  if(target==="compound"){
+    if(c||semi)out.push({ok:true,text:semi&&!c?"Compound: the semicolon joins two complete sentences.":`Compound: “, ${c[1].toLowerCase()}” joins two complete sentences.`});
+    else{
+      pass=false;const bare=/\s(and|but|or|so|yet|nor)\s/i.exec(t);
+      out.push({ok:false,text:bare?`If “${bare[1].toLowerCase()}” joins two complete sentences, put a comma right before it.`:"Join two complete sentences with a comma plus and, but, or, so, yet, for, or nor."});
+    }
+  }else{
+    if(s){
+      const word=s[0].toLowerCase().replace(/\s+/g," ");
+      out.push({ok:true,text:`Complex: “${word}” starts a part that can't stand alone.`});
+      if(s.index<3&&!RELATIVE.includes(word)&&!/,/.test(t))out.push({tip:true,text:`Because your sentence starts with “${word}”, put a comma after that first part.`});
+    }else{
+      pass=false;
+      out.push({ok:false,text:c?"This looks like a compound sentence. For complex, use a joining word like because, although, when, if, or since.":"Add a joining word like because, although, when, if, since, while, or who."});
+    }
+  }
+  return {pass,items:out};
+}
+
+/* ---------- header ---------- */
+const sel=$("#unit");
+sel.innerHTML=[1,2,3].map(n=>`<option value="${n}">Unit ${n}</option>`).join("");
+sel.value=String(S.unit);
+sel.addEventListener("change",()=>{S.unit=+sel.value;save();mode="word";resetWord();render();window.scrollTo({top:0});});
+function updateMeter(){
+  const list=unitWords();
+  const done=list.filter(w=>S.learned[w.w]&&S.spelled[w.w]&&S.written[w.w]).length;
+  $("#barfill").style.width=(list.length?done/list.length*100:0)+"%";
+  $("#metertext").textContent=`${done} of ${list.length} words finished in Unit ${S.unit}`;
+}
+
+/* ---------- state ---------- */
+let mode="word"; /* "word" or "quiz" */
+let SP,W,Q=null;
+function cur(){
+  if(!S.pos[S.unit])S.pos[S.unit]={i:0,stage:"learn"};
+  const p=S.pos[S.unit]; if(p.i>=unitWords().length)p.i=0; return p;
+}
+function resetWord(){
+  SP={phase:"ask",hint:0,first:true,copies:0,last:"",clue:false};
+  W={target:(W&&W.target)||"complex",draft:"",checks:null,ai:null};
+}
+resetWord();
+function goWord(i,stage){
+  const p=cur();const n=unitWords().length;
+  p.i=(i+n)%n;p.stage=stage||"learn";save();resetWord();mode="word";render();window.scrollTo({top:0,behavior:"smooth"});
+}
+function setStage(stage){const p=cur();p.stage=stage;save();if(stage==="spell")SP={phase:"ask",hint:0,first:true,copies:0,last:"",clue:false};render();window.scrollTo({top:0,behavior:"smooth"});}
+
+/* ---------- render ---------- */
+function render(){
+  updateMeter();
+  if(mode==="quiz"){renderQuiz();return;}
+  const list=unitWords();const p=cur();const w=list[p.i];
+  const stages=[["learn","Learn it",S.learned[w.w]],["spell","Spell it",S.spelled[w.w]],["write","Use it",S.written[w.w]]];
+  let body="";
+  if(p.stage==="learn")body=learnHTML(w);
+  else if(p.stage==="spell")body=spellHTML(w);
+  else body=writeHTML(w);
+  view.innerHTML=`
+  <p class="count" style="margin:22px 0 0">Word ${p.i+1} of ${list.length} in Unit ${S.unit}</p>
+  <ol class="stepbar" aria-label="Steps for this word">${stages.map(([k,label,done],i)=>
+    `<li><button type="button" data-stage="${k}" class="${done?"done":""}" ${p.stage===k?'aria-current="step"':""}><span class="n">${done?"✓":i+1}</span>${label}</button></li>`).join("")}</ol>
+  <section>${body}</section>
+  ${listHTML(list,p)}
+  ${savedHTML()}`;
+  afterRender(w,p);
+}
+
+/* ---------- step 1: learn ---------- */
+function learnHTML(w){
+  return `
+    <div class="wordhead"><h2 class="bigword">${esc(w.w)}</h2>${speakBtn(w.w)}</div>
+    <div class="tiles" style="margin-top:18px" aria-label="Syllables: ${esc(w.syl.join(", "))}">${w.syl.map(s=>`<span class="tile">${esc(s)}</span>`).join("")}</div>
+    <p class="small muted">Say it in parts. Then spell it in parts.</p>
+    <div class="defs">${defsHTML(w)}</div>
+    <figure class="example" style="margin-left:0;margin-right:0">
+      <p class="ex">${markSentence(w.ex,w.w)}</p>
+      <p class="why">${explainSentence(w.ex)}</p>
+    </figure>
+    <label class="knew"><input type="checkbox" id="knew" ${S.learned[w.w]?"checked":""}> I can explain what “${esc(w.w)}” means in my own words</label>
+    <div class="learn-actions">
+      <button class="btn ghost" type="button" data-act="prevword">Previous word</button>
+      <button class="btn" type="button" data-act="tospell">Next: spell it</button>
+    </div>`;
+}
+
+/* ---------- step 2: spell ---------- */
+function hintText(w){
+  const s=w.syl;
+  if(SP.hint===1)return `It has ${s.length} syllable${s.length>1?"s":""} and ${w.w.replace(/ /g,"").length} letters. It starts with “${w.w[0]}”.`;
+  if(SP.hint===2)return `It starts with “${s[0]}”.`;
+  return `Every part except the last: ${s.slice(0,-1).join(" + ")} + ...`;
+}
+function spellHTML(w){
+  const target=w.w.toLowerCase();let fb="";
+  if(SP.phase==="ok"){
+    fb=`<div class="msg good">${SP.first?"Correct on the first try!":"You've got it now."}</div>${lettersHTML(w.w)}
+      <div class="row"><button class="btn" type="button" data-act="towrite" id="nextbtn">Next: use it in a sentence</button></div>`;
+  }else if(SP.phase==="fix"){
+    fb=`<div class="msg bad">Not quite. The red letters are where it went wrong.</div>
+      <p class="small muted">You typed: <strong>${esc(SP.last)}</strong></p>
+      <p class="small muted">Correct spelling:</p>${lettersHTML(w.w,diffMarks(SP.last.toLowerCase(),target))}
+      <p><strong>Type it correctly 3 times to lock it in.</strong></p>
+      <div class="copies">${[0,1,2].map(i=>`<i class="${i<SP.copies?"on":""}"></i>`).join("")}</div>`;
+  }
+  return `
+    <p style="font-weight:600;margin:0 0 10px">Listen, read the meaning, and spell the word from memory.</p>
+    <div class="panel clue">
+      ${defsHTML(w)}
+      ${SP.clue?`<p class="ex" style="margin-top:12px">${blankSentence(w.ex,w.w)}</p>`:""}
+      ${SP.hint?`<div class="msg warn">${esc(hintText(w))}</div>`:""}
+    </div>
+    <div class="row">
+      ${speakBtn(w.w,"Hear the word")}
+      ${SP.clue?"":'<button class="btn ghost" type="button" data-act="clue">Show sentence clue</button>'}
+      ${SP.phase==="ask"&&SP.hint<3?'<button class="btn ghost" type="button" data-act="hint">Give me a hint</button>':""}
+    </div>
+    ${SP.phase==="ok"?"":`
+    <label class="lbl" for="spin">${SP.phase==="fix"?`Copy it: ${esc(w.w)}`:"Type the word"}</label>
+    <input id="spin" class="field" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+    <div class="row"><button class="btn" type="button" data-act="check">Check spelling</button></div>`}
+    <div class="feedback">${fb}</div>`;
+}
+function checkSpell(){
+  const inp=$("#spin");if(!inp)return;
+  const w=unitWords()[cur().i];const typed=inp.value.trim().toLowerCase().replace(/\s+/g," ");const target=w.w.toLowerCase();
+  if(!typed){inp.focus();return;}
+  if(SP.phase==="ask"){
+    if(typed===target){if(SP.first){S.spelled[w.w]=true;save();}SP.phase="ok";}
+    else{SP.first=false;SP.last=inp.value.trim();SP.phase="fix";SP.copies=0;}
+  }else if(SP.phase==="fix"){
+    if(typed===target){SP.copies++;if(SP.copies>=3)SP.phase="ok";}
+    else SP.last=inp.value.trim();
+  }
+  render();
+}
+
+/* ---------- step 3: write ---------- */
+const ex=(t,w)=>`<div class="example" style="margin:10px 0"><p class="ex" style="margin:0">${markSentence(t,w)}</p></div>`;
+function guideHTML(){
+  return `<details class="help"><summary>Need help? How to write compound and complex sentences</summary>
+    <p>A complete sentence has someone or something (the subject) and an action (the verb). It makes sense by itself.</p>
+    <p><strong>Compound:</strong> two complete sentences joined by a comma plus one of the FANBOYS words.</p>
+    <div class="kw"><span>for</span><span>and</span><span>nor</span><span>but</span><span>or</span><span>yet</span><span>so</span></div>
+    ${ex("The box was cumbersome, so two of us carried it.","cumbersome")}
+    <p class="small muted">Test it: cover the joining word. If both sides are complete sentences, it's compound.</p>
+    <p style="margin-top:16px"><strong>Complex:</strong> one complete sentence plus a part that can't stand alone. That part starts with a joining word.</p>
+    <div class="kw"><span>because</span><span>although</span><span>when</span><span>while</span><span>if</span><span>since</span><span>until</span><span>after</span><span>before</span><span>unless</span><span>even though</span><span>who</span><span>which</span><span>that</span></div>
+    ${ex("Because the box was cumbersome, two of us carried it.","cumbersome")}
+    ${ex("Two of us carried the box because it was cumbersome.","cumbersome")}
+    <p class="small muted">If the joining word comes first, put a comma after that first part.</p>
+    <p style="margin-top:16px"><strong>Endings are okay:</strong> admonish, admonishes, admonished, admonishing. Use the word as the same part of speech as its meaning: if it's a verb, use it as an action.</p>
+  </details>`;
+}
+function writeHTML(w){
+  const list=unitWords();const last=cur().i===list.length-1;
+  const passed=W.checks&&W.checks.pass;
+  return `
+    <div class="panel">
+      <div class="wordhead" style="margin-bottom:10px"><strong style="font-size:1.6rem">${esc(w.w)}</strong>${speakBtn(w.w)}</div>
+      ${defsHTML(w)}
+    </div>
+    <p class="lbl" id="segl">Pick a sentence type</p>
+    <div class="seg" role="group" aria-labelledby="segl">
+      <button type="button" data-target="compound" aria-pressed="${W.target==="compound"}">Compound</button>
+      <button type="button" data-target="complex" aria-pressed="${W.target==="complex"}">Complex</button>
+    </div>
+    <p class="small muted">${W.target==="compound"
+      ?"Two complete sentences joined by a comma plus <mark class='join'>and</mark>, <mark class='join'>but</mark>, <mark class='join'>or</mark>, <mark class='join'>so</mark>, <mark class='join'>yet</mark>, <mark class='join'>for</mark>, or <mark class='join'>nor</mark>."
+      :"One complete sentence plus a part that starts with a joining word like <mark class='join'>because</mark>, <mark class='join'>although</mark>, <mark class='join'>when</mark>, <mark class='join'>if</mark>, <mark class='join'>since</mark>, or <mark class='join'>who</mark>."}</p>
+    ${guideHTML()}
+    <label class="lbl" for="wtext">Your sentence</label>
+    <textarea id="wtext" class="field" placeholder="Write a ${W.target} sentence that uses “${esc(w.w)}”..."></textarea>
+    <div class="row">
+      <button class="btn" type="button" data-act="checksentence">Check my sentence</button>
+    </div>
+    <div id="checks">${W.checks?checksHTML(W.checks):""}</div>
+    <div class="learn-actions" style="margin-top:20px">
+      ${passed
+        ?(last?'<button class="btn ghost" type="button" data-act="nextword">Back to word 1</button><button class="btn" type="button" data-act="quizstart">Take the Unit quiz</button>'
+              :'<span></span><button class="btn" type="button" data-act="nextword">Next word</button>')
+        :(last?'<button class="btn ghost" type="button" data-act="quizstart">Skip to the Unit quiz</button>'
+              :'<button class="btn ghost" type="button" data-act="nextword">Skip to the next word</button>')}
+    </div>`;
+}
+function checksHTML(res){
+  return `<ul class="checks">${res.items.map(it=>`<li class="${it.tip?"tip":it.ok?"ok":"no"}"><b aria-hidden="true">${it.tip?"•":it.ok?"✓":"✗"}</b><span><span class="sr">${it.tip?"Tip: ":it.ok?"Done: ":"Fix: "}</span>${esc(it.text)}</span></li>`).join("")}</ul>`
+    +(res.pass?'<div class="msg good">Great sentence! It is saved at the bottom of the page.</div>':'<div class="msg warn">Fix the items marked ✗, then check again.</div>');
+}
+function checkWrite(){
+  const w=unitWords()[cur().i];const text=($("#wtext").value||"").trim();
+  if(!text){$("#wtext").focus();return;}
+  const res=analyzeSentence(text,w,W.target);W.checks=res;W.ai=null;W.draft=text;
+  if(res.pass){
+    if(!S.sentences.some(m=>m.text===text&&m.w===w.w))S.sentences.push({w:w.w,type:W.target,text});
+    S.written[w.w]=true;save();
+  }
+  render();
+}
+/* ---------- word list + saved sentences ---------- */
+function listHTML(list,p){
+  return `<section class="wordlist">
+    <h3>All 20 words in Unit ${S.unit}</h3>
+    <p class="legend"><span><i class="dot l on"></i>Learned</span><span><i class="dot s on"></i>Spelled without help</span><span><i class="dot w on"></i>Used in a sentence</span></p>
+    <div class="chips">${list.map((x,i)=>`<button type="button" class="chip ${i===p.i?"on":""}" data-go="${i}">${esc(x.w)}${dots(x.w)}</button>`).join("")}</div>
+    <div class="row" style="margin-top:18px"><button class="btn ghost" type="button" data-act="quizstart">Take the Unit ${S.unit} quiz</button></div>
+  </section>`;
+}
+function savedHTML(){
+  const mine=S.sentences;
+  return `<section class="mine">
+    <h3 style="margin:0 0 6px">My saved sentences (${mine.length})</h3>
+    ${mine.length?`<div class="row"><button class="btn ghost" type="button" data-act="copyall">Copy all for my teacher</button><span id="copied" class="small muted"></span></div>
+      <textarea id="copybox" class="field hidden" rows="6" readonly></textarea>
+      <ol>${mine.slice().reverse().map((m,ri)=>{const idx=mine.length-1-ri;return `<li><span class="meta">${esc(m.w)}, ${esc(m.type)}</span>${markSentence(m.text,m.w)} <button class="linkbtn" type="button" data-del="${idx}">Delete</button></li>`;}).join("")}</ol>`
+      :`<p class="muted">When a sentence passes every check, it's saved here so you can share it with your teacher.</p>`}
+  </section>`;
+}
+async function copyAll(){
+  const txt=S.sentences.map((m,i)=>`${i+1}. ${m.w} (${m.type}): ${m.text}`).join("\n");
+  const note=$("#copied");
+  try{await navigator.clipboard.writeText(txt);note.textContent="Copied. Paste it into an email or document for your teacher.";}
+  catch(e){const box=$("#copybox");box.value=txt;box.classList.remove("hidden");box.focus();box.select();note.textContent="Select all the text in the box and copy it.";}
+}
+
+/* ---------- quiz ---------- */
+function makeQuiz(){
+  const pool=unitWords();
+  const picks=shuffle(pool).slice(0,10);
+  const qs=picks.map(w=>{
+    const kinds=["def2word","word2def","blank","blank"];
+    if(w.pos.length===1&&w.pos[0][0]!=="adv")kinds.push("pos");
+    const kind=kinds[Math.floor(Math.random()*kinds.length)];
+    const distract=shuffle(pool.filter(x=>x.w!==w.w)).slice(0,3);
+    if(kind==="pos")return {w,prompt:`What part of speech is “${esc(w.w)}”?`,opts:shuffle(["noun","verb","adjective"]),answer:POSNAME[w.pos[0][0]]};
+    if(kind==="word2def")return {w,prompt:`What does “${esc(w.w)}” mean?`,opts:shuffle([w.pos[0][1],...distract.map(x=>x.pos[0][1])]),answer:w.pos[0][1]};
+    if(kind==="def2word")return {w,prompt:`Which word means: ${esc(w.pos[0][1])}?`,opts:shuffle([w.w,...distract.map(x=>x.w)]),answer:w.w};
+    return {w,prompt:`Which word fits in the blank?<br><span class="ex">${blankSentence(w.ex,w.w)}</span><br><span class="small muted">(The word in the sentence may have an ending like -s, -ed, or -ing.)</span>`,opts:shuffle([w.w,...distract.map(x=>x.w)]),answer:w.w};
+  });
+  Q={qs,i:0,score:0,picked:null,missed:[]};
+}
+function renderQuiz(){
+  const back='<button class="btn ghost" type="button" data-act="quizexit">Back to the words</button>';
+  if(Q.i>=Q.qs.length){
+    view.innerHTML=`<section class="panel qbox" style="margin-top:26px"><h2 style="margin-top:0">Unit ${S.unit} quiz</h2><p class="score">${Q.score} / ${Q.qs.length}</p>
+      ${Q.missed.length?`<p>Tap a word to study it again:</p><div class="chips">${Q.missed.map(w=>`<button class="chip" type="button" data-study="${esc(w)}">${esc(w)}</button>`).join("")}</div>`:"<p>Perfect score. Every answer was right.</p>"}
+      <div class="row"><button class="btn" type="button" data-act="quizstart">Take a new quiz</button>${back}</div></section>`;
+    return;
+  }
+  const q=Q.qs[Q.i];const answered=Q.picked!==null;
+  view.innerHTML=`<section class="qbox" style="margin-top:26px">
+    <div class="row" style="justify-content:space-between;margin-top:0"><h2 style="margin:0;font-size:1.3rem">Unit ${S.unit} quiz</h2>${back}</div>
+    <p class="count">Question ${Q.i+1} of ${Q.qs.length}. Score: ${Q.score}</p>
+    <p class="qprompt">${q.prompt}</p>
+    <div class="opts">${q.opts.map((o,i)=>{
+      let cls="";if(answered){if(o===q.answer)cls="right";else if(i===Q.picked)cls="wrong";}
+      return `<button class="opt ${cls}" type="button" data-opt="${i}" ${answered?"disabled":""}>${esc(o)}</button>`;}).join("")}</div>
+    ${answered?`<div class="feedback">
+      <div class="msg ${q.opts[Q.picked]===q.answer?"good":"bad"}">${q.opts[Q.picked]===q.answer?"Right!":"The answer is “"+esc(q.answer)+"”."}</div>
+      <div class="panel"><strong>${esc(q.w.w)}</strong> ${speakBtn(q.w.w)}<div style="margin-top:10px">${defsHTML(q.w)}</div><p class="ex" style="margin:0">${markSentence(q.w.ex,q.w.w)}</p></div>
+      <div class="row"><button class="btn" type="button" data-act="quiznext" id="qnext">${Q.i+1<Q.qs.length?"Next question":"See my score"}</button></div></div>`:""}
+  </section>`;
+  if(answered){const n=$("#qnext");if(n)n.focus();}
+}
+
+/* ---------- wiring ---------- */
+function afterRender(w,p){
+  const k=$("#knew");
+  if(k)k.addEventListener("change",e=>{S.learned[w.w]=e.target.checked;save();render();});
+  const inp=$("#spin");
+  if(inp){inp.focus({preventScroll:true});inp.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();checkSpell();}});}
+  const ta=$("#wtext");
+  if(ta){ta.value=W.draft;ta.addEventListener("input",()=>{W.draft=ta.value;});}
+}
+view.addEventListener("click",e=>{
+  const t=e.target.closest("button");if(!t)return;
+  if(t.dataset.say){say(t.dataset.say);return;}
+  if(t.dataset.go!==undefined){goWord(+t.dataset.go,"learn");return;}
+  if(t.dataset.stage){setStage(t.dataset.stage);return;}
+  if(t.dataset.opt!==undefined&&Q&&Q.picked===null){
+    Q.picked=+t.dataset.opt;const q=Q.qs[Q.i];
+    if(q.opts[Q.picked]===q.answer)Q.score++;else if(!Q.missed.includes(q.w.w))Q.missed.push(q.w.w);
+    render();return;
+  }
+  if(t.dataset.study){const i=unitWords().findIndex(x=>x.w===t.dataset.study);if(i>=0)goWord(i,"learn");return;}
+  if(t.dataset.target){W.target=t.dataset.target;W.checks=null;W.ai=null;render();return;}
+  if(t.dataset.del!==undefined){S.sentences.splice(+t.dataset.del,1);save();render();return;}
+  const p=cur();
+  switch(t.dataset.act){
+    case "prevword":goWord(p.i-1,"learn");break;
+    case "tospell":setStage("spell");break;
+    case "towrite":setStage("write");break;
+    case "nextword":goWord(p.i+1,"learn");break;
+    case "clue":SP.clue=true;render();break;
+    case "hint":SP.hint=Math.min(3,SP.hint+1);SP.first=false;render();break;
+    case "check":checkSpell();break;
+    case "checksentence":checkWrite();break;
+    case "copyall":copyAll();break;
+    case "quizstart":makeQuiz();mode="quiz";render();window.scrollTo({top:0});break;
+    case "quiznext":Q.i++;Q.picked=null;render();break;
+    case "quizexit":mode="word";render();window.scrollTo({top:0});break;
+  }
+});
+$("#reset").addEventListener("click",()=>{
+  if(!confirm("Erase all progress and saved sentences in this browser?"))return;
+  S={unit:S.unit,learned:{},spelled:{},written:{},sentences:[],pos:{}};save();mode="word";resetWord();render();
+});
+render();
+
+})();
+</script>
+</body>
+</html>
