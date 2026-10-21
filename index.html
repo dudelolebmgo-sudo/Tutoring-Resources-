@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="A study guide to the ancient Maya: where and when they lived, food, social classes, religion, calendars, writing and decline.">
+<title>The Maya Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+:root{
+  --paper:#F7F3EA; --card:#FFFFFF; --ink:#2A2418; --muted:#6B604B; --line:#E4DAC4; --head:#1F7A5C;
+  --jade:#1F7A5C; --clay:#B4532A; --gold:#A87A00; --sky:#2B6CB0; --tip:#FFF4D1; --check:#E8F4EE;
+  --f-display:"Fredoka", system-ui, sans-serif; --f-body:"Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#16140F; --card:#211E17; --ink:#EEE7D8; --muted:#B5A98F; --line:#3A3427; --head:#5CC9A0;
+    --jade:#5CC9A0; --clay:#F08A5D; --gold:#E3B941; --sky:#7FB2F0; --tip:#3A3214; --check:#18302A;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#16140F; --card:#211E17; --ink:#EEE7D8; --muted:#B5A98F; --line:#3A3427; --head:#5CC9A0;
+  --jade:#5CC9A0; --clay:#F08A5D; --gold:#E3B941; --sky:#7FB2F0; --tip:#3A3214; --check:#18302A;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55}
+.wrap{max-width:900px;margin:0 auto;padding:28px max(16px,env(safe-area-inset-left,0px)) 64px max(16px,env(safe-area-inset-right,0px))}
+h1{font:600 clamp(32px,6vw,48px)/1.1 var(--f-display);color:var(--head)}
+.sub{color:var(--muted);margin:6px 0 22px}
+h2{font:600 clamp(22px,3.4vw,27px)/1.2 var(--f-display);color:var(--head);margin-bottom:10px}
+h3{font:600 19px/1.3 var(--f-display);margin:12px 0 4px}
+section{background:var(--card);border-radius:20px;padding:22px 24px;margin-bottom:18px;box-shadow:0 3px 14px rgba(80,60,20,.07);break-inside:avoid}
+p+p{margin-top:8px}
+ul{padding-left:22px} li{margin:4px 0}
+b{font-weight:700}
+table{width:100%;border-collapse:collapse;margin-top:6px;font-size:16px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-display);font-weight:600;color:var(--muted)}
+.tag{display:inline-block;font:800 12px/1 var(--f-body);letter-spacing:.1em;text-transform:uppercase;padding:6px 10px;border-radius:999px;background:var(--tip);color:var(--gold);margin-bottom:8px}
+.q{font:600 21px/1.35 var(--f-display);margin-bottom:8px}
+.tip{background:var(--tip);border-radius:14px;padding:14px 16px;margin-top:12px}
+.tip::before{content:"💡 "}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.pyr{display:grid;grid-template-columns:240px 1fr;gap:20px;align-items:center}
+.pyr svg{width:100%;height:auto}
+.pyr svg text{font-family:var(--f-body);font-weight:700}
+.watch{border-left:7px solid var(--clay)}
+.watch h2{color:var(--clay)}
+.check{background:var(--check)}
+.check ol{padding-left:22px}
+details{margin-top:12px}
+summary{cursor:pointer;font-weight:700;color:var(--head)}
+.num{display:flex;gap:18px;flex-wrap:wrap;margin-top:8px}
+.num div{text-align:center;font-size:14px;color:var(--muted)}
+.num svg{display:block;margin:0 auto 4px}
+footer{color:var(--muted);font-size:14px;text-align:center;margin-top:28px}
+footer a{color:var(--head)}
+@media (max-width:640px){.two,.pyr{grid-template-columns:1fr}.pyr svg{max-width:260px;margin:0 auto}}
+@media print{
+  body{background:#fff;font-size:11.5px;line-height:1.45}
+  .wrap{max-width:none;padding:0}
+  section{box-shadow:none;border:1px solid #E4DAC4;padding:10px 14px;margin-bottom:8px;border-radius:12px}
+  .tip{padding:8px 12px;margin-top:8px}
+  h1{font-size:30px} h2{font-size:19px;margin-bottom:6px} .sub{margin-bottom:12px}
+  table{font-size:12px} th,td{padding:5px 8px}
+  .pyr{grid-template-columns:180px 1fr}
+  details{display:block} details>summary{list-style:none}
+  footer{display:none}
+}
+@page{size:letter;margin:14mm}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>The Maya</h1>
+  <p class="sub">Study guide · Social Studies · Ancient Mesoamerica</p>
+
+  <section>
+    <span class="tag">Big question</span>
+    <p class="q">Why would a culture believe that humans were made of corn?</p>
+    <p>The <b>Popol Vuh</b> is the sacred book of the K'iche' Maya. Its name means roughly “Book of the Community” or “Book of the People” (<i>vuh</i> means “book”). In its creation story, the gods first try to make people out of mud, then out of wood, and both fail. Finally they shape people out of <b>maize (corn) dough</b>, and it works.</p>
+    <p>Why corn? Because maize was the center of Maya life: it was their main food, farming followed its seasons, and their religion had a maize god. A people whose whole world depended on corn told a story in which they were made of it.</p>
+  </section>
+
+  <section>
+    <h2>📍 Where did they live?</h2>
+    <p>The Maya lived in <b>southern Mexico</b> (the Yucatán Peninsula and Chiapas) and <b>northern Central America</b>: <b>Guatemala, Belize</b>, and parts of <b>Honduras</b> and <b>El Salvador</b>. Their land had three main regions:</p>
+    <table>
+      <tr><th>Region</th><th>What it's like</th><th>Famous cities</th></tr>
+      <tr><td><b>Northern Lowlands</b></td><td>Flat, dry limestone land on the Yucatán Peninsula (Mexico)</td><td>Chichén Itzá, Uxmal, Edzná, Mayapán</td></tr>
+      <tr><td><b>Southern Lowlands</b></td><td>Hot, rainy tropical forest</td><td>Tikal (Guatemala), Palenque (Mexico), Copán (Honduras), Calakmul (Mexico)</td></tr>
+      <tr><td><b>Highlands</b></td><td>Cool mountains and volcanoes in the far south</td><td>Kaminaljuyú (Guatemala)</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>⏳ When did they live?</h2>
+    <table>
+      <tr><th>Period</th><th>Dates (about)</th><th>What happened</th></tr>
+      <tr><td><b>Preclassic</b></td><td>2000 BC – AD 250</td><td>Farming villages grow into the first cities and pyramids.</td></tr>
+      <tr><td><b>Classic</b></td><td>AD 250 – 900</td><td>The “golden age.” Great cities like Tikal, Palenque and Copán are ruled by kings.</td></tr>
+      <tr><td><b>Postclassic</b></td><td>AD 900 – 1524</td><td>Power moves north to cities like Chichén Itzá and later Mayapán. The Spanish arrive in the 1500s.</td></tr>
+    </table>
+    <p class="tip">Different textbooks round these dates a little differently. Pick one set and stick with it.</p>
+  </section>
+
+  <section>
+    <h2>🌽 Food, farming and trade</h2>
+    <p>Main crops: <b>maize</b>, <b>beans</b> and <b>squash</b>, plus chili peppers and <b>cacao</b> (the bean chocolate comes from).</p>
+    <p><b>Slash-and-burn farming:</b> farmers cut down a patch of forest, burned it, and planted in the ashes, which made the soil richer. After a few years the soil wore out, so they moved to a new patch. They also built <b>terraces</b> on hillsides and <b>raised fields</b> in swampy land.</p>
+    <p><b>Trade:</b> Kings and merchants traded goods like salt, jade, obsidian (volcanic glass for tools), feathers and cotton cloth. Cacao beans were so valuable they were sometimes used like money.</p>
+  </section>
+
+  <section>
+    <h2>👑 Social organization</h2>
+    <div class="pyr">
+      <svg viewBox="0 0 240 230" role="img" aria-label="Social pyramid: king at the top, then nobles and priests, merchants and artisans, farmers and workers, and enslaved people at the bottom">
+        <polygon points="120,6 146,46 94,46" fill="#A87A00"/>
+        <polygon points="94,50 146,50 172,90 68,90" fill="#B4532A"/>
+        <polygon points="68,94 172,94 198,134 42,134" fill="#1F7A5C"/>
+        <polygon points="42,138 198,138 224,178 16,178" fill="#2B6CB0"/>
+        <polygon points="16,182 224,182 238,224 2,224" fill="#6B604B"/>
+        <text x="120" y="40" fill="#fff" font-size="12" text-anchor="middle">1</text>
+        <text x="120" y="76" fill="#fff" font-size="13" text-anchor="middle">2</text>
+        <text x="120" y="120" fill="#fff" font-size="13" text-anchor="middle">3</text>
+        <text x="120" y="164" fill="#fff" font-size="13" text-anchor="middle">4</text>
+        <text x="120" y="209" fill="#fff" font-size="13" text-anchor="middle">5</text>
+      </svg>
+      <ol>
+        <li><b>The king</b>: called the “holy lord.” People believed he was connected to the gods. He led in war, religion and trade.</li>
+        <li><b>Nobles and priests</b>: royal family, officials, scribes and priests who led ceremonies and kept the calendars.</li>
+        <li><b>Merchants and artisans</b>: traders, potters, sculptors, weavers and builders.</li>
+        <li><b>Farmers and workers</b>: <b>most</b> Maya people. They grew food, paid tribute and helped build temples.</li>
+        <li><b>Enslaved people</b>: often prisoners captured in war, or people being punished for crimes.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <h2>🛕 Religion and calendars</h2>
+    <p>The Maya worshipped <b>many gods</b> connected to nature, like <b>Chaak</b> (god of rain), <b>Itzamnaaj</b> (a creator god) and the <b>Maize God</b>. They built tall <b>pyramid-temples</b>, held ceremonies and offerings, and played a sacred <b>ballgame</b>.</p>
+    <div class="two">
+      <div><h3>Tzolk'in: 260 days</h3><p>13 numbers × 20 day names. This was the <b>sacred calendar</b> used to plan ceremonies. A person's birthday on the Tzolk'in was believed to shape their life and was often part of their name.</p></div>
+      <div><h3>Haab': 365 days</h3><p>18 months of 20 days, plus 5 extra days thought to be unlucky. This <b>solar calendar</b> followed the seasons and the farming year.</p></div>
+    </div>
+    <p class="tip">The two calendars ran together like gears. The same combination of dates came back only once every <b>52 years</b>.</p>
+  </section>
+
+  <section>
+    <h2>✍️ Writing, numbers and science</h2>
+    <p>The Maya had the most complete <b>writing system</b> in the ancient Americas. Their <b>hieroglyphs</b> mixed signs for whole words with signs for syllables. They carved them on stone monuments and painted them in folding books called <b>codices</b>.</p>
+    <p><b>Diego de Landa</b> was a Spanish Franciscan friar in Yucatán (he later became its bishop). In <b>1562</b>, in the town of Maní, he burned many Maya books because he saw them as against his religion; only <b>four</b> codices survive today. Later he wrote a book about the Maya that included a <b>“Maya alphabet.”</b> His alphabet was mistaken (Maya writing isn't an alphabet), but in 1952 the Russian scholar <b>Yuri Knorozov</b> used it as a key to show that many glyphs stand for sounds. That helped people start reading Maya writing again.</p>
+    <p>The Maya counted in <b>20s</b> and were one of the first peoples to use <b>zero</b>. They tracked the Sun, Moon and Venus very accurately.</p>
+    <div class="num" aria-label="Maya numbers: a shell is 0, a dot is 1, a bar is 5">
+      <div><svg width="54" height="30" viewBox="0 0 54 30"><ellipse cx="27" cy="15" rx="22" ry="11" fill="none" stroke="currentColor" stroke-width="3"/><path d="M10,15 q17,-10 34,0" fill="none" stroke="currentColor" stroke-width="2"/></svg>0 = shell</div>
+      <div><svg width="30" height="30" viewBox="0 0 30 30"><circle cx="15" cy="15" r="7" fill="currentColor"/></svg>1 = dot</div>
+      <div><svg width="60" height="30" viewBox="0 0 60 30"><rect x="4" y="10" width="52" height="10" rx="3" fill="currentColor"/></svg>5 = bar</div>
+      <div><svg width="60" height="30" viewBox="0 0 60 30"><circle cx="18" cy="6" r="5" fill="currentColor"/><circle cx="42" cy="6" r="5" fill="currentColor"/><rect x="4" y="16" width="52" height="10" rx="3" fill="currentColor"/></svg>7 = 2 dots + bar</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>📉 Decline, and the Maya today</h2>
+    <ul>
+      <li>Between about <b>AD 800 and 900</b>, people left most of the big southern cities. Historians think several causes worked together: long <b>droughts</b>, <b>too many people</b> for the land, <b>cutting down forests</b>, and <b>wars</b> between cities.</li>
+      <li>The Maya did <b>not</b> disappear. Northern cities like Chichén Itzá kept going.</li>
+      <li>The <b>Spanish conquest</b> began in the 1500s. The last independent Maya kingdom fell in <b>1697</b>.</li>
+      <li><b>Today</b>, millions of Maya people live in Mexico, Guatemala, Belize, Honduras and El Salvador, and speak about 30 Mayan languages.</li>
+    </ul>
+  </section>
+
+  <section class="watch">
+    <h2>⚠️ Watch out for these mix-ups</h2>
+    <ul>
+      <li><b>Popol Vuh</b> is the name of a book. <i>Vuh</i> means “book,” not “corn.” The corn is in the <i>story</i>.</li>
+      <li><b>Tikal, Palenque and Copán</b> are rainforest cities of the <b>southern lowlands</b>, not the highlands.</li>
+      <li><b>Tzolk'in (260)</b> = sacred calendar for ceremonies and birthdays. <b>Haab' (365)</b> = solar calendar for seasons and farming.</li>
+      <li>Spelling: <b>highlands</b>, <b>lowlands</b>, <b>slash-and-burn farming</b>, <b>priests</b>, <b>nobles</b>.</li>
+    </ul>
+  </section>
+
+  <section class="check">
+    <h2>✅ Check yourself</h2>
+    <ol>
+      <li>Name the five countries where the Maya lived.</li>
+      <li>Put the periods in order and give rough dates: Classic, Postclassic, Preclassic.</li>
+      <li>Explain slash-and-burn farming in two sentences. Why did farmers have to keep moving?</li>
+      <li>Which group was at the top of the social pyramid? Which group had the most people?</li>
+      <li>What is the difference between the Tzolk'in and the Haab'?</li>
+      <li>Give two possible reasons why the southern Maya cities were abandoned.</li>
+    </ol>
+    <details>
+      <summary>Show answers</summary>
+      <ol>
+        <li>Mexico, Guatemala, Belize, Honduras and El Salvador.</li>
+        <li>Preclassic (2000 BC – AD 250) → Classic (AD 250 – 900) → Postclassic (AD 900 – 1524).</li>
+        <li>Farmers cut and burned a patch of forest, then planted in the ash-rich soil. After a few years the soil wore out, so they cleared a new patch.</li>
+        <li>The king was at the top. Farmers and workers were the largest group.</li>
+        <li>The Tzolk'in has 260 days and was used for ceremonies and birthdays. The Haab' has 365 days and followed the seasons.</li>
+        <li>Any two: drought, too many people, deforestation, war between cities.</li>
+      </ol>
+    </details>
+  </section>
+
+  <footer>Part of <a href="../../">Tutoring Resources</a>. Printable copy: <a href="maya-study-guide.pdf">PDF</a>.</footer>
+</div>
+<script>
+// Print with the answers showing.
+addEventListener("beforeprint", () => document.querySelectorAll("details").forEach(d => d.open = true));
+</script>
+</body>
+</html>
