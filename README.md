@@ -1,6 +1,6 @@
 # Tutoring Resources
 
-Everything I've built and used in my private tutoring: interactive practice sites, lesson slides, worksheets and study guides.
+Everything I've built and used in my private tutoring: interactive practice sites, lesson slides, worksheets, and study guides. This includes the proper use of AI to assist in learning, ensuring that AI is used as a tool. 
 
 **Subjects:** English · Physics · Social Studies · Mathematics (coming soon)
 
